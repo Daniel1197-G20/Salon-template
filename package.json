@@ -1,8 +1,8 @@
 {
-  "name": "velour-hairs",
+  "name": "lux-beauty-salon-template",
   "version": "1.0.0",
   "private": true,
-  "description": "Velour Hairs & Beauty - Hair salon booking and shop platform with Firebase Functions and Firestore",
+  "description": "Lux Beauty & Hair Salon — Full-stack salon booking and e-commerce template powered by React, Express, and Firebase / SQLite",
   "scripts": {
     "dev:server": "npm --prefix server run dev",
     "dev:client": "npm --prefix client run dev",

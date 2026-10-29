@@ -1,28 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3A2215"/>
-      <stop offset="100%" stop-color="#1B1008"/>
+      <stop offset="0%" stop-color="#282B4A"/>
+      <stop offset="100%" stop-color="#191B2F"/>
     </linearGradient>
-    <linearGradient id="roseGold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F3E7D5"/>
-      <stop offset="45%" stop-color="#C98B72"/>
-      <stop offset="100%" stop-color="#B5654A"/>
+    <linearGradient id="luxGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EEEBDA"/>
+      <stop offset="50%" stop-color="#C5BEA5"/>
+      <stop offset="100%" stop-color="#EEEBDA"/>
     </linearGradient>
-    <linearGradient id="silkCream" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="luxCream" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#F3E7D5"/>
+      <stop offset="100%" stop-color="#EEEBDA"/>
     </linearGradient>
   </defs>
 
   <!-- Luxury Background Squircle -->
   <rect width="64" height="64" rx="16" fill="url(#bg)"/>
-  <rect x="1.5" y="1.5" width="61" height="61" rx="14.5" fill="none" stroke="#C98B72" stroke-width="1.5" stroke-opacity="0.45"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="14.5" fill="none" stroke="#EEEBDA" stroke-width="1.5" stroke-opacity="0.35"/>
 
   <!-- Stylized Hair Sheen Swirls -->
   <path d="M14 18 C18 18 22 24 28 38 L32 47 L36 38 C42 24 46 18 50 18" 
         fill="none" 
-        stroke="url(#roseGold)" 
+        stroke="url(#luxGold)" 
         stroke-width="5" 
         stroke-linecap="round" 
         stroke-linejoin="round"/>
@@ -30,14 +30,14 @@
   <!-- Fluid Silk Hair Wave Intertwined in V -->
   <path d="M19 22 C23 20 28 27 32 35 C36 43 41 46 47 38 C49 35 48 30 45 28 C42 26 38 29 36 34" 
         fill="none" 
-        stroke="url(#silkCream)" 
+        stroke="url(#luxCream)" 
         stroke-width="2.2" 
         stroke-linecap="round" 
         stroke-linejoin="round"
         opacity="0.95"/>
 
   <!-- Salon Gold Accent Star Sparkle -->
-  <path d="M47 10 Q47 15 52 15 Q47 15 47 20 Q47 15 42 15 Q47 15 47 10 Z" fill="#F3E7D5"/>
-  <circle cx="17" cy="46" r="1.5" fill="#C98B72"/>
-  <circle cx="48" cy="44" r="1.2" fill="#F3E7D5" opacity="0.8"/>
+  <path d="M47 10 Q47 15 52 15 Q47 15 47 20 Q47 15 42 15 Q47 15 47 10 Z" fill="#EEEBDA"/>
+  <circle cx="17" cy="46" r="1.5" fill="#EEEBDA"/>
+  <circle cx="48" cy="44" r="1.2" fill="#EEEBDA" opacity="0.8"/>
 </svg>

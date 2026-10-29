@@ -33,7 +33,7 @@ app.use((err, req, res, next) => {
 if (!process.env.FUNCTION_TARGET && !process.env.K_SERVICE) {
   const PORT = process.env.PORT || 4000;
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Velour Hairs API running on http://localhost:${PORT}`);
+    console.log(`Lux Beauty & Hair Salon API running on http://localhost:${PORT}`);
   });
 }
 

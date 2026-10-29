@@ -35,7 +35,7 @@ router.post("/login", async (req, res, next) => {
       return res.status(401).json({ error: "Invalid username or password" });
     }
 
-    const secret = process.env.JWT_SECRET || "velour-hairs-secret-change-me";
+    const secret = process.env.JWT_SECRET || "lux-salon-secret-change-me";
     const token = jwt.sign({ username: loggedInUsername }, secret, {
       expiresIn: "12h",
     });

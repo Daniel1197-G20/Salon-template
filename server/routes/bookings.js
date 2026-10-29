@@ -34,7 +34,7 @@ function renderActionPage({ title, statusType, headline, message, booking, baseU
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title} | Velour Hairs & Beauty</title>
+  <title>${title} | Lux Beauty & Hair Salon</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -125,13 +125,13 @@ function renderActionPage({ title, statusType, headline, message, booking, baseU
       transition: background 0.2s;
     }
     .btn:hover {
-      background-color: #9E4759;
+      background-color: #282B4A;
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="brand">Velour Hairs & Beauty</div>
+    <div class="brand">Lux Beauty & Hair Salon</div>
     <div class="badge">${icon} ${statusType.toUpperCase()}</div>
     <h1 class="title">${headline}</h1>
     <p class="message">${message}</p>

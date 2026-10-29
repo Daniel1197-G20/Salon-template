@@ -11,7 +11,7 @@ async function runDiagnostic() {
   const to = customTarget || process.env.ADMIN_NOTIFICATION_EMAIL || emailUser || "azrielstudio45@gmail.com";
 
   console.log("=========================================");
-  console.log(" Velour Email Notification Diagnostic");
+  console.log(" Lux Beauty Email Notification Diagnostic");
   console.log("=========================================");
   console.log(`Test Recipient: ${to} ${customTarget ? "(Custom recipient tested)" : "(Admin default)"}`);
   console.log(`Brevo API Key (No Domain needed): ${brevoApiKey ? "CONFIGURED (" + brevoApiKey.substring(0, 10) + "...)" : "NOT SET"}`);
@@ -35,21 +35,21 @@ async function runDiagnostic() {
   try {
     const result = await sendEmail({
       to,
-      subject: "✨ Velour Hairs: Email Test",
+      subject: "✨ Lux Beauty: Email Test",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 550px; margin: 0 auto; background: #FAF8F5; padding: 24px; border-radius: 12px; border: 1px solid #E6DED6;">
-          <h2 style="color: #9E4759; margin-top: 0;">VELOUR HAIRS & BEAUTY</h2>
+          <h2 style="color: #282B4A; margin-top: 0;">LUX BEAUTY & HAIR SALON</h2>
           <p style="font-size: 16px; color: #231815;"><strong>🎉 Success! Your email notifications are working.</strong></p>
           <p style="color: #73645B; font-size: 14px; line-height: 1.6;">
             This email confirms that automated messages can be delivered to <strong>${to}</strong>.
           </p>
           <hr style="border: none; border-top: 1px solid #E6DED6; margin: 20px 0;" />
           <p style="font-size: 12px; color: #8C7B70; margin: 0;">
-            Sent via Velour Notification Engine
+            Sent via Lux Notification Engine
           </p>
         </div>
       `,
-      fromName: "Velour Hairs System",
+      fromName: "Lux Beauty System",
     });
 
     if (result.success) {

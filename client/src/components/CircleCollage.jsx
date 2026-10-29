@@ -33,8 +33,8 @@ export default function CircleCollage({ className = "" }) {
   return (
     <div className={`relative mx-auto h-[340px] sm:h-[430px] md:h-[530px] w-full max-w-[360px] sm:max-w-[460px] md:max-w-none select-none ${className}`} aria-hidden="true">
       <svg className="absolute inset-0 h-full w-full pointer-events-none" viewBox="0 0 400 520">
-        <path className="arc-line" d="M 300 90 Q 250 180 260 240" stroke="#9E4759" strokeWidth="1.5" fill="none" strokeDasharray="4 4" opacity="0.4" />
-        <path className="arc-line" d="M 260 260 Q 280 340 310 400" stroke="#CBB9AA" strokeWidth="1.5" fill="none" opacity="0.6" />
+        <path className="arc-line" d="M 300 90 Q 250 180 260 240" stroke="#3D4373" strokeWidth="1.5" fill="none" strokeDasharray="4 4" opacity="0.4" />
+        <path className="arc-line" d="M 260 260 Q 280 340 310 400" stroke="#C8C4B0" strokeWidth="1.5" fill="none" opacity="0.6" />
       </svg>
       {circles.map((c, i) => (
         <div

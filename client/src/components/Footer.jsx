@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-6xl gap-8 sm:gap-10 px-4 sm:px-6 py-10 sm:py-14 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
         <div>
           <p className="font-display text-xl font-bold text-espresso">
-            Velour <span className="script-accent text-rose font-medium">hairs &amp; beauty</span>
+            Lux <span className="script-accent text-rose font-medium">beauty &amp; hair salon</span>
           </p>
           <p className="mt-2.5 max-w-xs text-xs sm:text-sm text-espresso/70 leading-relaxed">
             Your hair deserves the best care. Step in, relax, and let us bring out your true beauty.
@@ -25,7 +25,7 @@ export default function Footer() {
           <div className="mt-3 flex flex-col gap-2.5 text-xs sm:text-sm text-espresso/80">
             <a href="tel:08103043035" className="font-semibold text-espresso hover:text-rose inline-flex items-center gap-1.5 py-0.5">
               <span>📞</span>
-              <span>0810 304 3035</span>
+              <span>+234...........</span>
             </a>
             <span className="text-espresso/65">Opening Hours: Mon – Sat, 9am – 7pm</span>
             <span className="text-xs text-clay/80">Walk-ins welcome &amp; appointments prioritized</span>
@@ -33,7 +33,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-clay/15 py-4 px-4 sm:px-6 flex items-center justify-center text-xs text-espresso/50 text-center">
-        <span>© {new Date().getFullYear()} Velour Hairs &amp; Beauty. All rights reserved.</span>
+        <span>© {new Date().getFullYear()} Lux Beauty &amp; Hair Salon. All rights reserved.</span>
       </div>
     </footer>
   );

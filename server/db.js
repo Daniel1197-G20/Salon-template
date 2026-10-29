@@ -4,14 +4,29 @@ const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
 // Determine if we should use Firebase Cloud Firestore or Local SQLite
-const isFirebaseEnv = Boolean(
-  process.env.K_SERVICE ||
-  process.env.FUNCTION_TARGET ||
-  process.env.FIREBASE_CONFIG ||
-  process.env.FIREBASE_SERVICE_ACCOUNT_KEY ||
-  process.env.GOOGLE_APPLICATION_CREDENTIALS ||
-  process.env.FIRESTORE_EMULATOR_HOST
-);
+function hasValidFirebaseCreds() {
+  if (process.env.K_SERVICE || process.env.FUNCTION_TARGET || process.env.FIRESTORE_EMULATOR_HOST) {
+    return true;
+  }
+  if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY) {
+    const raw = process.env.FIREBASE_SERVICE_ACCOUNT_KEY.trim();
+    if (raw.startsWith("{")) return true;
+    const paths = [
+      path.resolve(process.cwd(), raw),
+      path.resolve(__dirname, raw),
+      path.resolve(__dirname, "serviceAccountKey.json"),
+      path.resolve(process.cwd(), "serviceAccountKey.json"),
+    ];
+    if (paths.some((p) => fs.existsSync(p))) return true;
+  }
+  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    const p = path.resolve(process.cwd(), process.env.GOOGLE_APPLICATION_CREDENTIALS);
+    if (fs.existsSync(p)) return true;
+  }
+  return false;
+}
+
+const isFirebaseEnv = hasValidFirebaseCreds();
 
 let firestoreDb = null;
 
@@ -32,8 +47,8 @@ if (isFirebaseEnv) {
           const possiblePaths = [
             path.resolve(process.cwd(), raw),
             path.resolve(__dirname, raw),
-            path.resolve(__dirname, "velour-salon-ce77e-firebase-adminsdk-fbsvc-f195317c50.json"),
-            path.resolve(process.cwd(), "server/velour-salon-ce77e-firebase-adminsdk-fbsvc-f195317c50.json"),
+            path.resolve(__dirname, "serviceAccountKey.json"),
+            path.resolve(process.cwd(), "serviceAccountKey.json"),
           ];
           for (const p of possiblePaths) {
             if (fs.existsSync(p)) {
@@ -50,7 +65,7 @@ if (isFirebaseEnv) {
       const projectId =
         process.env.FIREBASE_PROJECT_ID ||
         process.env.GCLOUD_PROJECT ||
-        "velour-salon-ce77e";
+        "lux-beauty-salon";
 
       app = initializeApp({
         ...(credential ? { credential } : {}),
@@ -64,7 +79,10 @@ if (isFirebaseEnv) {
       firestoreDb.settings({ ignoreUndefinedProperties: true });
     } catch {}
     console.log("🔥 [Database] Connected to Firebase Cloud Firestore");
-    seedFirestore();
+    seedFirestore().catch((err) => {
+      console.warn("⚠️  [Firestore seed note - using SQLite]:", err.message);
+      firestoreDb = null;
+    });
   } catch (err) {
     console.warn("⚠️  [Firebase init note]:", err.message);
     firestoreDb = null;
@@ -78,7 +96,7 @@ let sqliteDb = null;
 function getSqlite() {
   if (!sqliteDb) {
     const Database = require("better-sqlite3");
-    const dbPath = path.join(__dirname, "velour.db");
+    const dbPath = path.join(__dirname, "salon.db");
     sqliteDb = new Database(dbPath);
     sqliteDb.pragma("journal_mode = WAL");
 
@@ -139,7 +157,7 @@ function getSqlite() {
     // Seed Admin
     const adminCount = sqliteDb.prepare("SELECT COUNT(*) as c FROM admins").get().c;
     if (adminCount === 0) {
-      const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || "velour2026", 10);
+      const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || "admin12345", 10);
       sqliteDb.prepare("INSERT INTO admins (username, password_hash) VALUES (?, ?)").run(
         process.env.ADMIN_USERNAME || "admin",
         hash
@@ -236,7 +254,7 @@ async function seedFirestore() {
     const adminsSnap = await firestoreDb.collection("admins").limit(1).get();
     if (adminsSnap.empty) {
       console.log("🌱 [Firestore] Seeding initial admin...");
-      const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || "velour2026", 10);
+      const hash = bcrypt.hashSync(process.env.ADMIN_PASSWORD || "admin12345", 10);
       await firestoreDb.collection("admins").add({
         username: process.env.ADMIN_USERNAME || "admin",
         password_hash: hash,

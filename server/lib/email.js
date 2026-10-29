@@ -70,7 +70,7 @@ async function httpsPost(urlStr, headers, bodyObj, retries = 2) {
  * 3. Generic SMTP (Brevo SMTP, Mailjet, Outlook, etc.)
  * 4. Gmail SMTP (Requires Google App Password)
  */
-async function sendEmail({ to, subject, html, fromName = "Velour Hairs & Beauty", replyTo }) {
+async function sendEmail({ to, subject, html, fromName = "Lux Beauty & Hair Salon", replyTo }) {
   const brevoApiKey = process.env.BREVO_API_KEY;
   const resendApiKey = process.env.RESEND_API_KEY;
   const smtpHost = process.env.SMTP_HOST;
@@ -139,7 +139,7 @@ async function sendEmail({ to, subject, html, fromName = "Velour Hairs & Beauty"
   // 2. Resend API
   if (resendApiKey) {
     try {
-      const fromEmail = process.env.RESEND_FROM_EMAIL || "Velour Hairs <onboarding@resend.dev>";
+      const fromEmail = process.env.RESEND_FROM_EMAIL || "Lux Beauty <onboarding@resend.dev>";
       const resendBody = {
         from: fromEmail,
         to: Array.isArray(to) ? to : [to],
@@ -251,7 +251,7 @@ function getBaseUrl(customBaseUrl) {
   if (process.env.APP_URL && process.env.APP_URL.startsWith("http")) return process.env.APP_URL.replace(/\/+$/, "");
   if (process.env.SITE_URL && process.env.SITE_URL.startsWith("http")) return process.env.SITE_URL.replace(/\/+$/, "");
   if (process.env.NODE_ENV === "production") {
-    return `https://${process.env.FIREBASE_PROJECT_ID || "velour-salon-ce77e"}.web.app`;
+    return `https://${process.env.FIREBASE_PROJECT_ID || "lux-beauty-salon"}.web.app`;
   }
   return `http://localhost:${process.env.PORT || 4000}`;
 }
@@ -260,7 +260,7 @@ function getBaseUrl(customBaseUrl) {
  * Generate secure HMAC token for one-click action links (Approve/Reject)
  */
 function generateActionToken(bookingId, action) {
-  const secret = process.env.JWT_SECRET || "velour-hairs-secret-change-me";
+  const secret = process.env.JWT_SECRET || "lux-salon-secret-change-me";
   return crypto.createHmac("sha256", secret).update(`${bookingId}:${action}`).digest("hex");
 }
 
@@ -292,13 +292,13 @@ async function sendBookingPendingCustomerEmail({ booking, service }) {
   const customerHtml = `
     <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F5; padding: 28px; border-radius: 14px; border: 1px solid #E6DED6; color: #231815; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
       <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #E6DED6;">
-        <h2 style="color: #9E4759; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">VELOUR HAIRS & BEAUTY</h2>
+        <h2 style="color: #282B4A; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">LUX BEAUTY & HAIR SALON</h2>
         <p style="margin: 6px 0 0 0; font-size: 13px; color: #73645B; text-transform: uppercase; letter-spacing: 1.5px;">Appointment Request Received</p>
       </div>
 
       <div style="margin-top: 24px; font-size: 15px; line-height: 1.6;">
         <p style="margin: 0 0 12px 0;">Hello <strong>${booking.customer_name}</strong>,</p>
-        <p style="margin: 0 0 16px 0;">Thank you for choosing Velour Hairs & Beauty! We have received your appointment request and our salon team is currently reviewing your chosen time slot.</p>
+        <p style="margin: 0 0 16px 0;">Thank you for choosing Lux Beauty & Hair Salon! We have received your appointment request and our salon team is currently reviewing your chosen time slot.</p>
       </div>
 
       <!-- Pending Status Banner -->
@@ -313,7 +313,7 @@ async function sendBookingPendingCustomerEmail({ booking, service }) {
 
       <!-- Booking Details Card -->
       <div style="background-color: #FFFFFF; border-radius: 10px; padding: 22px; margin-top: 20px; border: 1px solid #E6DED6;">
-        <h3 style="margin-top: 0; color: #9E4759; font-size: 16px; border-bottom: 1px dashed #E6DED6; padding-bottom: 10px;">Your Booking Request Details</h3>
+        <h3 style="margin-top: 0; color: #282B4A; font-size: 16px; border-bottom: 1px dashed #E6DED6; padding-bottom: 10px;">Your Booking Request Details</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
           <tr>
             <td style="padding: 9px 0; color: #73645B; width: 35%;"><strong>Service:</strong></td>
@@ -346,12 +346,12 @@ async function sendBookingPendingCustomerEmail({ booking, service }) {
       <!-- Salon Guidelines -->
       <div style="margin-top: 24px; padding: 16px; background-color: #EFE9E2; border-radius: 8px; font-size: 13px; color: #4A3E39; line-height: 1.5;">
         <strong>Need immediate assistance?</strong><br/>
-        Feel free to call or WhatsApp us at: <a href="tel:08103043035" style="color: #9E4759; font-weight: bold; text-decoration: none;">0810 304 3035</a>.
+        Feel free to call or WhatsApp us at: <a href="tel:08103043035" style="color: #282B4A; font-weight: bold; text-decoration: none;">0810 304 3035</a>.
       </div>
 
       <div style="text-align: center; margin-top: 24px; font-size: 12px; color: #73645B;">
         <p style="margin: 0 0 4px 0;">We appreciate your patience while we confirm your stylist's availability.</p>
-        <p style="margin: 0; font-weight: bold;">Velour Hairs & Beauty</p>
+        <p style="margin: 0; font-weight: bold;">Lux Beauty & Hair Salon</p>
       </div>
     </div>
   `;
@@ -361,7 +361,7 @@ async function sendBookingPendingCustomerEmail({ booking, service }) {
       to: booking.email,
       subject: `⏳ Appointment Request Received: ${serviceName} (${formattedDate} @ ${formattedTime})`,
       html: customerHtml,
-      fromName: "Velour Hairs & Beauty",
+      fromName: "Lux Beauty & Hair Salon",
       replyTo: salonEmail,
     });
     console.log(`✉️ [Email] Customer pending request email sent to: ${booking.email}`);
@@ -393,7 +393,7 @@ async function sendBookingAdminNotification({ booking, service, baseUrl: customB
   const ownerHtml = `
     <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F5; padding: 28px; border-radius: 14px; border: 1px solid #E6DED6; color: #231815; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
       <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #E6DED6;">
-        <h2 style="color: #9E4759; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">VELOUR HAIRS & BEAUTY</h2>
+        <h2 style="color: #282B4A; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">LUX BEAUTY & HAIR SALON</h2>
         <p style="margin: 6px 0 0 0; font-size: 13px; color: #73645B; text-transform: uppercase; letter-spacing: 1.5px;">New Appointment Request — Action Required</p>
       </div>
 
@@ -417,12 +417,12 @@ async function sendBookingAdminNotification({ booking, service, baseUrl: customB
           </tr>
           <tr>
             <td style="padding: 8px 0; color: #73645B;"><strong>Phone Number:</strong></td>
-            <td style="padding: 8px 0;"><a href="tel:${booking.phone}" style="color: #9E4759; font-weight: bold; text-decoration: none;">${booking.phone}</a></td>
+            <td style="padding: 8px 0;"><a href="tel:${booking.phone}" style="color: #282B4A; font-weight: bold; text-decoration: none;">${booking.phone}</a></td>
           </tr>
           ${booking.email ? `
           <tr>
             <td style="padding: 8px 0; color: #73645B;"><strong>Email Address:</strong></td>
-            <td style="padding: 8px 0; color: #231815;"><a href="mailto:${booking.email}" style="color: #9E4759; text-decoration: none;">${booking.email}</a></td>
+            <td style="padding: 8px 0; color: #231815;"><a href="mailto:${booking.email}" style="color: #282B4A; text-decoration: none;">${booking.email}</a></td>
           </tr>` : `
           <tr>
             <td style="padding: 8px 0; color: #73645B;"><strong>Email Address:</strong></td>
@@ -466,7 +466,7 @@ async function sendBookingAdminNotification({ booking, service, baseUrl: customB
 
       <!-- Dashboard Link -->
       <div style="text-align: center; margin-top: 22px; font-size: 13px; color: #73645B;">
-        <p style="margin: 0;">You can also manage all bookings anytime in your <a href="${dashboardUrl}" style="color: #9E4759; font-weight: bold; text-decoration: underline;">Admin Dashboard</a>.</p>
+        <p style="margin: 0;">You can also manage all bookings anytime in your <a href="${dashboardUrl}" style="color: #282B4A; font-weight: bold; text-decoration: underline;">Admin Dashboard</a>.</p>
       </div>
     </div>
   `;
@@ -476,7 +476,7 @@ async function sendBookingAdminNotification({ booking, service, baseUrl: customB
       to: salonEmail,
       subject: `🗓️ [Action Required] New Appointment: ${booking.customer_name} - ${serviceName} (${formattedDate} @ ${formattedTime})`,
       html: ownerHtml,
-      fromName: "Velour Booking System",
+      fromName: "Lux Booking System",
       replyTo: booking.email ? { email: booking.email, name: booking.customer_name } : undefined,
     });
     console.log(`✉️ [Email] Owner actionable notification sent to: ${salonEmail}`);
@@ -500,7 +500,7 @@ async function sendBookingApprovedCustomerEmail({ booking, service }) {
   const customerHtml = `
     <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F5; padding: 28px; border-radius: 14px; border: 1px solid #E6DED6; color: #231815; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
       <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #E6DED6;">
-        <h2 style="color: #9E4759; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">VELOUR HAIRS & BEAUTY</h2>
+        <h2 style="color: #282B4A; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">LUX BEAUTY & HAIR SALON</h2>
         <p style="margin: 6px 0 0 0; font-size: 13px; color: #73645B; text-transform: uppercase; letter-spacing: 1.5px;">Appointment Confirmed</p>
       </div>
 
@@ -521,7 +521,7 @@ async function sendBookingApprovedCustomerEmail({ booking, service }) {
 
       <!-- Booking Summary Card -->
       <div style="background-color: #FFFFFF; border-radius: 10px; padding: 22px; margin-top: 20px; border: 1px solid #E6DED6;">
-        <h3 style="margin-top: 0; color: #9E4759; font-size: 16px; border-bottom: 1px dashed #E6DED6; padding-bottom: 10px;">Booking Summary</h3>
+        <h3 style="margin-top: 0; color: #282B4A; font-size: 16px; border-bottom: 1px dashed #E6DED6; padding-bottom: 10px;">Booking Summary</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
           <tr>
             <td style="padding: 9px 0; color: #73645B; width: 35%;"><strong>Service:</strong></td>
@@ -546,12 +546,12 @@ async function sendBookingApprovedCustomerEmail({ booking, service }) {
       <div style="margin-top: 24px; padding: 18px; background-color: #EFE9E2; border-radius: 8px; font-size: 13px; color: #4A3E39; line-height: 1.6;">
         <strong style="color: #231815;">Salon Guidelines & Arrival:</strong><br/>
         • Please arrive 10 minutes prior to your scheduled time.<br/>
-        • If you need to reschedule or need directions, call or WhatsApp us at: <a href="tel:08103043035" style="color: #9E4759; font-weight: bold; text-decoration: none;">0810 304 3035</a>.
+        • If you need to reschedule or need directions, call or WhatsApp us at: <a href="tel:08103043035" style="color: #282B4A; font-weight: bold; text-decoration: none;">0810 304 3035</a>.
       </div>
 
       <div style="text-align: center; margin-top: 24px; font-size: 12px; color: #73645B;">
         <p style="margin: 0 0 4px 0;">We look forward to giving you the look you love!</p>
-        <p style="margin: 0; font-weight: bold;">Velour Hairs & Beauty</p>
+        <p style="margin: 0; font-weight: bold;">Lux Beauty & Hair Salon</p>
       </div>
     </div>
   `;
@@ -561,7 +561,7 @@ async function sendBookingApprovedCustomerEmail({ booking, service }) {
       to: booking.email,
       subject: `🎉 Appointment Confirmed: ${serviceName} on ${formattedDate} at ${formattedTime}`,
       html: customerHtml,
-      fromName: "Velour Hairs & Beauty",
+      fromName: "Lux Beauty & Hair Salon",
       replyTo: salonEmail,
     });
     console.log(`✉️ [Email] Customer confirmation/approval sent to: ${booking.email}`);
@@ -587,7 +587,7 @@ async function sendBookingApprovedAdminNotification({ booking, service, baseUrl:
   const adminHtml = `
     <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F5; padding: 28px; border-radius: 14px; border: 1px solid #E6DED6; color: #231815; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
       <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #E6DED6;">
-        <h2 style="color: #9E4759; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">VELOUR HAIRS & BEAUTY</h2>
+        <h2 style="color: #282B4A; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">LUX BEAUTY & HAIR SALON</h2>
         <p style="margin: 6px 0 0 0; font-size: 13px; color: #73645B; text-transform: uppercase; letter-spacing: 1.5px;">Appointment Confirmed Notification</p>
       </div>
 
@@ -611,12 +611,12 @@ async function sendBookingApprovedAdminNotification({ booking, service, baseUrl:
           </tr>
           <tr>
             <td style="padding: 8px 0; color: #73645B;"><strong>Phone:</strong></td>
-            <td style="padding: 8px 0;"><a href="tel:${booking.phone}" style="color: #9E4759; font-weight: bold; text-decoration: none;">${booking.phone}</a></td>
+            <td style="padding: 8px 0;"><a href="tel:${booking.phone}" style="color: #282B4A; font-weight: bold; text-decoration: none;">${booking.phone}</a></td>
           </tr>
           ${booking.email ? `
           <tr>
             <td style="padding: 8px 0; color: #73645B;"><strong>Email:</strong></td>
-            <td style="padding: 8px 0; color: #231815;"><a href="mailto:${booking.email}" style="color: #9E4759; text-decoration: none;">${booking.email}</a></td>
+            <td style="padding: 8px 0; color: #231815;"><a href="mailto:${booking.email}" style="color: #282B4A; text-decoration: none;">${booking.email}</a></td>
           </tr>` : ""}
           <tr>
             <td style="padding: 8px 0; color: #73645B;"><strong>Service:</strong></td>
@@ -652,7 +652,7 @@ async function sendBookingApprovedAdminNotification({ booking, service, baseUrl:
       to: salonEmail,
       subject: `✅ [Confirmed] Appointment: ${booking.customer_name} - ${serviceName} (${formattedDate} @ ${formattedTime})`,
       html: adminHtml,
-      fromName: "Velour Booking System",
+      fromName: "Lux Booking System",
       replyTo: booking.email ? { email: booking.email, name: booking.customer_name } : undefined,
     });
     console.log(`✉️ [Email] Admin confirmation receipt sent to: ${salonEmail}`);
@@ -677,13 +677,13 @@ async function sendBookingRejectedCustomerEmail({ booking, service, baseUrl: cus
   const customerHtml = `
     <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F5; padding: 28px; border-radius: 14px; border: 1px solid #E6DED6; color: #231815; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
       <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #E6DED6;">
-        <h2 style="color: #9E4759; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">VELOUR HAIRS & BEAUTY</h2>
+        <h2 style="color: #282B4A; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">LUX BEAUTY & HAIR SALON</h2>
         <p style="margin: 6px 0 0 0; font-size: 13px; color: #73645B; text-transform: uppercase; letter-spacing: 1.5px;">Appointment Status Update</p>
       </div>
 
       <div style="margin-top: 24px; font-size: 15px; line-height: 1.6;">
         <p style="margin: 0 0 12px 0;">Hello <strong>${booking.customer_name}</strong>,</p>
-        <p style="margin: 0 0 16px 0;">Thank you for reaching out to Velour Hairs & Beauty. Unfortunately, we are unable to accept your requested appointment for <strong>${serviceName}</strong> on <strong>${formattedDate}</strong> at <strong>${formattedTime}</strong> due to a scheduling conflict or stylist availability.</p>
+        <p style="margin: 0 0 16px 0;">Thank you for reaching out to Lux Beauty & Hair Salon. Unfortunately, we are unable to accept your requested appointment for <strong>${serviceName}</strong> on <strong>${formattedDate}</strong> at <strong>${formattedTime}</strong> due to a scheduling conflict or stylist availability.</p>
       </div>
 
       <!-- Declined Status Banner -->
@@ -702,17 +702,17 @@ async function sendBookingRejectedCustomerEmail({ booking, service, baseUrl: cus
         <p style="font-size: 14px; color: #73645B; margin: 8px 0 18px 0; line-height: 1.5;">
           Please select another convenient date or time that suits your schedule:
         </p>
-        <a href="${bookingPageUrl}" style="background-color: #9E4759; color: #FFFFFF; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">
+        <a href="${bookingPageUrl}" style="background-color: #282B4A; color: #FFFFFF; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 14px; display: inline-block;">
           📅 Book Another Slot
         </a>
         <p style="font-size: 13px; color: #73645B; margin: 16px 0 0 0;">
-          Or call / WhatsApp us directly at <a href="tel:08103043035" style="color: #9E4759; font-weight: bold; text-decoration: none;">0810 304 3035</a> to help find the next best opening.
+          Or call / WhatsApp us directly at <a href="tel:08103043035" style="color: #282B4A; font-weight: bold; text-decoration: none;">0810 304 3035</a> to help find the next best opening.
         </p>
       </div>
 
       <div style="text-align: center; margin-top: 24px; font-size: 12px; color: #73645B;">
-        <p style="margin: 0 0 4px 0;">We hope to see you soon at Velour Hairs & Beauty.</p>
-        <p style="margin: 0; font-weight: bold;">Velour Hairs & Beauty Team</p>
+        <p style="margin: 0 0 4px 0;">We hope to see you soon at Lux Beauty & Hair Salon.</p>
+        <p style="margin: 0; font-weight: bold;">Lux Beauty & Hair Salon Team</p>
       </div>
     </div>
   `;
@@ -720,9 +720,9 @@ async function sendBookingRejectedCustomerEmail({ booking, service, baseUrl: cus
   try {
     await sendEmail({
       to: booking.email,
-      subject: `Update regarding your appointment request - Velour Hairs & Beauty`,
+      subject: `Update regarding your appointment request - Lux Beauty & Hair Salon`,
       html: customerHtml,
-      fromName: "Velour Hairs & Beauty",
+      fromName: "Lux Beauty & Hair Salon",
       replyTo: salonEmail,
     });
     console.log(`✉️ [Email] Customer rejection/cancellation sent to: ${booking.email}`);
@@ -747,7 +747,7 @@ async function sendBookingRejectedAdminNotification({ booking, service, baseUrl:
   const adminHtml = `
     <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F5; padding: 28px; border-radius: 14px; border: 1px solid #E6DED6; color: #231815; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
       <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #E6DED6;">
-        <h2 style="color: #9E4759; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">VELOUR HAIRS & BEAUTY</h2>
+        <h2 style="color: #282B4A; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">LUX BEAUTY & HAIR SALON</h2>
         <p style="margin: 6px 0 0 0; font-size: 13px; color: #73645B; text-transform: uppercase; letter-spacing: 1.5px;">Appointment Declined / Cancelled</p>
       </div>
 
@@ -771,12 +771,12 @@ async function sendBookingRejectedAdminNotification({ booking, service, baseUrl:
           </tr>
           <tr>
             <td style="padding: 8px 0; color: #73645B;"><strong>Phone:</strong></td>
-            <td style="padding: 8px 0;"><a href="tel:${booking.phone}" style="color: #9E4759; font-weight: bold; text-decoration: none;">${booking.phone}</a></td>
+            <td style="padding: 8px 0;"><a href="tel:${booking.phone}" style="color: #282B4A; font-weight: bold; text-decoration: none;">${booking.phone}</a></td>
           </tr>
           ${booking.email ? `
           <tr>
             <td style="padding: 8px 0; color: #73645B;"><strong>Email:</strong></td>
-            <td style="padding: 8px 0; color: #231815;"><a href="mailto:${booking.email}" style="color: #9E4759; text-decoration: none;">${booking.email}</a></td>
+            <td style="padding: 8px 0; color: #231815;"><a href="mailto:${booking.email}" style="color: #282B4A; text-decoration: none;">${booking.email}</a></td>
           </tr>` : ""}
           <tr>
             <td style="padding: 8px 0; color: #73645B;"><strong>Service:</strong></td>
@@ -807,7 +807,7 @@ async function sendBookingRejectedAdminNotification({ booking, service, baseUrl:
       to: salonEmail,
       subject: `❌ [Declined] Appointment: ${booking.customer_name} - ${serviceName} (${formattedDate} @ ${formattedTime})`,
       html: adminHtml,
-      fromName: "Velour Booking System",
+      fromName: "Lux Booking System",
       replyTo: booking.email ? { email: booking.email, name: booking.customer_name } : undefined,
     });
     console.log(`✉️ [Email] Admin rejection notice sent to: ${salonEmail}`);
@@ -873,23 +873,23 @@ async function sendOrderCustomerConfirmation({ order }) {
   const customerHtml = `
     <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F5; padding: 28px; border-radius: 14px; border: 1px solid #E6DED6; color: #231815; box-shadow: 0 4px 16px rgba(0,0,0,0.03);">
       <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #E6DED6;">
-        <h2 style="color: #9E4759; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">VELOUR HAIRS & BEAUTY</h2>
+        <h2 style="color: #282B4A; margin: 0; font-size: 24px; letter-spacing: 2px; font-weight: 700;">LUX BEAUTY & HAIR SALON</h2>
         <p style="margin: 6px 0 0 0; font-size: 13px; color: #73645B; text-transform: uppercase; letter-spacing: 1.5px;">Order Confirmation</p>
       </div>
 
       <div style="margin-top: 24px; font-size: 15px; line-height: 1.6;">
         <p style="margin: 0 0 12px 0;">Hello <strong>${order.customer_name}</strong>,</p>
-        <p style="margin: 0 0 16px 0;">Thank you for shopping with Velour Hairs & Beauty! We have received your order and our team is preparing it for delivery.</p>
+        <p style="margin: 0 0 16px 0;">Thank you for shopping with Lux Beauty & Hair Salon! We have received your order and our team is preparing it for delivery.</p>
       </div>
 
       <!-- Order Summary Card -->
       <div style="background-color: #FFFFFF; border-radius: 10px; padding: 22px; margin-top: 20px; border: 1px solid #E6DED6;">
-        <h3 style="margin-top: 0; color: #9E4759; font-size: 16px; border-bottom: 1px dashed #E6DED6; padding-bottom: 10px;">Order Summary</h3>
+        <h3 style="margin-top: 0; color: #282B4A; font-size: 16px; border-bottom: 1px dashed #E6DED6; padding-bottom: 10px;">Order Summary</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
           ${itemsList}
           <tr style="border-top: 2px solid #E6DED6;">
             <td style="padding: 12px 0 4px 0; color: #231815; font-weight: bold; font-size: 15px;">Total Amount (Pay on Delivery):</td>
-            <td style="padding: 12px 0 4px 0; color: #9E4759; text-align: right; font-weight: bold; font-size: 16px;">${formatPrice(order.total)}</td>
+            <td style="padding: 12px 0 4px 0; color: #282B4A; text-align: right; font-weight: bold; font-size: 16px;">${formatPrice(order.total)}</td>
           </tr>
         </table>
 
@@ -902,11 +902,11 @@ async function sendOrderCustomerConfirmation({ order }) {
       <!-- Support Box -->
       <div style="margin-top: 24px; padding: 16px; background-color: #EFE9E2; border-radius: 8px; font-size: 13px; color: #4A3E39; line-height: 1.5;">
         <strong>Questions about your delivery?</strong><br/>
-        Contact our store support at <a href="tel:08103043035" style="color: #9E4759; font-weight: bold; text-decoration: none;">0810 304 3035</a>.
+        Contact our store support at <a href="tel:08103043035" style="color: #282B4A; font-weight: bold; text-decoration: none;">0810 304 3035</a>.
       </div>
 
       <div style="text-align: center; margin-top: 24px; font-size: 12px; color: #73645B;">
-        <p style="margin: 0; font-weight: bold;">Velour Hairs & Beauty</p>
+        <p style="margin: 0; font-weight: bold;">Lux Beauty & Hair Salon</p>
       </div>
     </div>
   `;
@@ -914,9 +914,9 @@ async function sendOrderCustomerConfirmation({ order }) {
   try {
     await sendEmail({
       to: order.email,
-      subject: `🛍️ Order Confirmed - Velour Hairs & Beauty (${formatPrice(order.total)})`,
+      subject: `🛍️ Order Confirmed - Lux Beauty & Hair Salon (${formatPrice(order.total)})`,
       html: customerHtml,
-      fromName: "Velour Hairs Store",
+      fromName: "Lux Salon Store",
       replyTo: salonEmail,
     });
     console.log(`✉️ [Email] Customer order confirmation sent to: ${order.email}`);
@@ -942,15 +942,15 @@ async function sendOrderAdminNotification({ order }) {
   const ownerHtml = `
     <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #FAF8F5; padding: 24px; border-radius: 12px; border: 1px solid #E6DED6; color: #231815;">
       <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #E6DED6;">
-        <h2 style="color: #9E4759; margin: 0; font-size: 22px; letter-spacing: 1px;">VELOUR HAIRS & BEAUTY</h2>
+        <h2 style="color: #282B4A; margin: 0; font-size: 22px; letter-spacing: 1px;">LUX BEAUTY & HAIR SALON</h2>
         <p style="margin: 4px 0 0 0; font-size: 13px; color: #73645B; text-transform: uppercase; letter-spacing: 1.5px;">New Product Order Placed</p>
       </div>
 
       <div style="background-color: #FFFFFF; border-radius: 8px; padding: 20px; margin-top: 20px; border: 1px solid #E6DED6;">
         <h3 style="margin-top: 0; color: #231815; font-size: 17px;">Order Details (Total: ${formatPrice(order.total)})</h3>
         <p style="margin: 4px 0; font-size: 14px;"><strong>Customer:</strong> ${order.customer_name}</p>
-        <p style="margin: 4px 0; font-size: 14px;"><strong>Phone:</strong> <a href="tel:${order.phone}" style="color: #9E4759; font-weight: bold;">${order.phone}</a></p>
-        ${order.email ? `<p style="margin: 4px 0; font-size: 14px;"><strong>Email:</strong> <a href="mailto:${order.email}" style="color: #9E4759;">${order.email}</a></p>` : ""}
+        <p style="margin: 4px 0; font-size: 14px;"><strong>Phone:</strong> <a href="tel:${order.phone}" style="color: #282B4A; font-weight: bold;">${order.phone}</a></p>
+        ${order.email ? `<p style="margin: 4px 0; font-size: 14px;"><strong>Email:</strong> <a href="mailto:${order.email}" style="color: #282B4A;">${order.email}</a></p>` : ""}
         <p style="margin: 4px 0; font-size: 14px;"><strong>Delivery Address:</strong> ${order.address}</p>
 
         <h4 style="margin: 16px 0 8px 0; color: #73645B; font-size: 14px;">Ordered Items:</h4>
@@ -966,7 +966,7 @@ async function sendOrderAdminNotification({ order }) {
       to: salonEmail,
       subject: `🛍️ New Product Order: ${order.customer_name} (${formatPrice(order.total)})`,
       html: ownerHtml,
-      fromName: "Velour Hairs Store",
+      fromName: "Lux Salon Store",
       replyTo: order.email ? { email: order.email, name: order.customer_name } : undefined,
     });
     console.log(`✉️ [Email] Admin order notification sent to: ${salonEmail}`);

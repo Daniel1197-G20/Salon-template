@@ -18,9 +18,9 @@
   h1, h2, h3, h4 {
     @apply font-display text-espresso;
   }
-  ::selection { background: #C98B72; color: #F3E7D5; }
+  ::selection { background: #3D4373; color: #EEEBDA; }
   :focus-visible {
-    outline: 2px solid #B5654A;
+    outline: 2px solid #282B4A;
     outline-offset: 3px;
   }
   /* Prevent iOS Safari from auto-zooming on focus when font size < 16px */
@@ -49,7 +49,7 @@
     font-style: italic;
   }
   .arc-line {
-    stroke: #8A5A3B;
+    stroke: #5A5F8C;
     stroke-width: 1.5;
     fill: none;
     opacity: 0.5;

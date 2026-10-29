@@ -23,10 +23,10 @@ export default function Navbar() {
           className="flex items-baseline gap-1.5 sm:gap-2 focus:outline-none"
         >
           <span className="font-display text-xl sm:text-2xl font-bold tracking-tight text-espresso">
-            Velour
+            Lux
           </span>
           <span className="script-accent text-base sm:text-lg text-rose font-medium">
-            hairs &amp; beauty
+            beauty &amp; hair salon
           </span>
         </Link>
 
